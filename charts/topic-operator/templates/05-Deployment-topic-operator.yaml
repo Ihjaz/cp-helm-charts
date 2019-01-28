@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "topic-operator.fullname" . }}
+  labels:
+    app: {{ include "topic-operator.name" . }}
+    chart: {{ include "topic-operator.chart" . }}
+    component: deployment
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: {{ include "topic-operator.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "topic-operator.fullname" . }}
+      {{- if .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.global.imagePullSecrets | indent 6 }}
+      {{- end }} 
+      containers:
+        - name: {{ include "topic-operator.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}  
+          env:
+            - name: STRIMZI_RESOURCE_LABELS
+              value: "operator.io/kind=topic"
+            - name: STRIMZI_KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Release.Name }}-cp-kafka-headless:9092
+            - name: STRIMZI_ZOOKEEPER_CONNECT
+              value: {{ .Release.Name }}-cp-zookeeper:2181
+            - name: STRIMZI_ZOOKEEPER_SESSION_TIMEOUT_MS
+              value: "40000"
+            - name: STRIMZI_FULL_RECONCILIATION_INTERVAL_MS
+              value: "900000"
+            - name: STRIMZI_TOPIC_METADATA_MAX_ATTEMPTS
+              value: "6"
+            - name: STRIMZI_LOG_LEVEL
+              value: DEBUG
+            - name: STRIMZI_TLS_ENABLED
+              value: "false"
+            - name: STRIMZI_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          livenessProbe:
+            httpGet:
+              path: /healthy
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            limits:
+              memory: 150Mi
+              cpu: 100m
+            requests:
+              memory: 96Mi
+              cpu: 100m
+  strategy:
+    type: Recreate
