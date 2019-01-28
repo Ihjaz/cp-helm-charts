@@ -41,8 +41,14 @@ in a format like "zkhost1:port:port;zkhost2:port:port"
 {{- $serverPort := .Values.serverPort -}}
 {{- $leaderElectionPort := .Values.leaderElectionPort -}}
 {{- $zk := dict "servers" (list) -}}
+{{- if .Values.scaleServers -}}
+{{- range $idx, $v := until (int .Values.scaleServers) }}
+{{- $noop := printf "%s-%d.%s-headless.%s:%d:%d" $name $idx $name $namespace (int $serverPort) (int $leaderElectionPort) | append $zk.servers | set $zk "servers" -}}
+{{- end }}
+{{- else -}}
 {{- range $idx, $v := until (int .Values.servers) }}
 {{- $noop := printf "%s-%d.%s-headless.%s:%d:%d" $name $idx $name $namespace (int $serverPort) (int $leaderElectionPort) | append $zk.servers | set $zk "servers" -}}
 {{- end }}
+{{- end -}}
 {{- printf "%s" (join ";" $zk.servers) | quote -}}
 {{- end -}}

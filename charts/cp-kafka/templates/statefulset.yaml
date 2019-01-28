@@ -1,3 +1,4 @@
+{{- $advertisedListenersOverride := first (pluck "advertised.listeners" .Values.configurationOverrides) }}
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
@@ -45,6 +46,10 @@ spec:
                     values:
                     - {{ .Release.Name }}
               topologyKey: "kubernetes.io/hostname"
+      {{- if .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.global.imagePullSecrets | indent 6 }}
+      {{- end }}
       containers:
       {{- if .Values.prometheus.jmx.enabled }}
       - name: prometheus-jmx-exporter
@@ -98,10 +103,14 @@ spec:
               fieldPath: status.hostIP
         - name: KAFKA_HEAP_OPTS
           value: {{ .Values.heapOptions }}
+        {{- if not (hasKey .Values.configurationOverrides "zookeeper.connect") }}
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: {{ include "cp-kafka.cp-zookeeper.service-name" . | quote }}
+        {{- end }}
+        {{- if not (hasKey .Values.configurationOverrides "log.dirs") }}
         - name: KAFKA_LOG_DIRS
-          value: {{ include "cp-kafka.log.dirs" . | quote }}
+          value: "/opt/kafka/data/logs"
+        {{- end }}
         {{- range $key, $value := .Values.configurationOverrides }}
         - name: {{ printf "KAFKA_%s" $key | replace "." "_" | upper | quote }}
           value: {{ $value | quote }}
@@ -114,16 +123,43 @@ spec:
         - name: KAFKA_JMX_PORT
           value: "{{ .Values.jmx.port }}"
         {{- end }}
+        - name: ZOOKEEPER_SASL_ENABLED
+          value: "FALSE"
+        - name: authServerIp
+          value: "dummy-auth-server"
         # This is required because the Downward API does not yet support identification of
         # pod numbering in statefulsets. Thus, we are required to specify a command which
         # allows us to extract the pod ID for usage as the Kafka Broker ID.
         # See: https://github.com/kubernetes/kubernetes/issues/31218
+        {{- if .Values.saslEnabled }}
+        {{- range $key, $value := .Values.saslConfigurationOverrides }}
+        - name: {{ printf "KAFKA_%s" $key | replace "." "_" | upper | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        - name: KAFKA_OPTS
+          value: "-Djava.security.auth.login.config=/etc/kafka/kafka-server-jaas.conf"
+        {{- end }}
+        {{- if .Values.sslEnabled }}
+        {{- range $key, $value := .Values.sslConfigurationOverrides }}
+        - name: {{ printf "KAFKA_%s" $key | replace "." "_" | upper | quote }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         command:
         - sh
         - -exc
         - |
           export KAFKA_BROKER_ID=${HOSTNAME##*-} && \
-          export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${POD_IP}:9092{{ include "cp-kafka.configuration.advertised.listeners" . }} && \
+        {{- if .Values.saslEnabled }}
+        {{- $advertisedListenersBasedOnFirstListenerPort := printf "SASL_PLAINTEXT://${POD_IP}:9092,SASL_EXTERNAL://${HOST_IP}:$((%s + ${KAFKA_BROKER_ID}))" (.Values.nodeport.firstListenerPort | toString) }}
+          export KAFKA_ADVERTISED_LISTENERS={{ if kindIs "string" $advertisedListenersOverride }}{{ printf "%s" $advertisedListenersOverride }}{{ else }}{{ printf "%s" $advertisedListenersBasedOnFirstListenerPort }}{{ end }} && \
+        {{- else if .Values.sslEnabled }}
+        {{- $advertisedListenersBasedOnFirstListenerPort := printf "SSL://${POD_IP}:9092,SSL_EXTERNAL://${HOST_IP}:$((%s + ${KAFKA_BROKER_ID}))" (.Values.nodeport.firstListenerPort | toString) }}
+          export KAFKA_ADVERTISED_LISTENERS={{ if kindIs "string" $advertisedListenersOverride }}{{ printf "%s" $advertisedListenersOverride }}{{ else }}{{ printf "%s" $advertisedListenersBasedOnFirstListenerPort }}{{ end }} && \
+        {{- else }}
+        {{- $advertisedListenersBasedOnFirstListenerPort := printf "PLAINTEXT://${POD_IP}:9092,EXTERNAL://${HOST_IP}:$((%s + ${KAFKA_BROKER_ID}))" (.Values.nodeport.firstListenerPort | toString) }}
+          export KAFKA_ADVERTISED_LISTENERS={{ if kindIs "string" $advertisedListenersOverride }}{{ printf "%s" $advertisedListenersOverride }}{{ else }}{{ printf "%s" $advertisedListenersBasedOnFirstListenerPort }}{{ end }} && \
+        {{- end }}
           exec /etc/confluent/docker/run
         volumeMounts:
         {{- $disksPerBroker := .Values.persistence.disksPerBroker | int }}
