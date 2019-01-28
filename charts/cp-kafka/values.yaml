@@ -35,7 +35,8 @@ updateStrategy: RollingUpdate
 ## Kafka Server properties
 ## ref: https://kafka.apache.org/documentation/#configuration
 configurationOverrides:
-  "offsets.topic.replication.factor": "3"
+  "log.dirs": /opt/kafka/data/logs
+  "offsets.topic.replication.factor": 1
   # "default.replication.factor": 3
   # "min.insync.replicas": 2
   # "auto.create.topics.enable": false
@@ -50,10 +51,7 @@ configurationOverrides:
   # "advertised.listeners": |-
   # EXTERNAL://${HOST_IP}:$((31090 + ${KAFKA_BROKER_ID}))
   "listener.security.protocol.map": |-
-   PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
-
-## Additional env variables
-customEnv: {}
+   SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_EXTERNAL:SASL_PLAINTEXT
 
 persistence:
   enabled: true
@@ -74,7 +72,7 @@ persistence:
   disksPerBroker: 1
 
 ## Kafka JVM Heap Option
-heapOptions: "-Xms512M -Xmx512M"
+heapOptions: "-Xms1G -Xmx1G"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -115,6 +113,21 @@ prometheus:
     image: solsson/kafka-prometheus-jmx-exporter@sha256
     imageTag: 6f82e2b0464f50da8104acd7363fb9b995001ddff77d248379f8788e78946143
     port: 5556
+    interval: 30s
+    resources:
+      limits:
+        cpu: 100m
+        memory: 192Mi
+      requests:
+        cpu: 100m
+        memory: 192Mi
+
+
+  operator:
+    enabled: false
+    serviceMonitor:
+       selector:
+         prometheus: kube-prometheus
 
 nodeport:
   enabled: false
