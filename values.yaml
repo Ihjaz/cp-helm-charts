@@ -11,7 +11,7 @@ cp-zookeeper:
   imageTag: 1.0.0
   heapOptions: "-Xms256M -Xmx256M -Xss256k"
   persistence:
-    enabled: false
+    enabled: true
     ## The size of the PersistentVolume to allocate to each Zookeeper Pod in the StatefulSet. For
     ## production servers this number should likely be much larger.
     ##
