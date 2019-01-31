@@ -116,13 +116,13 @@ prometheus:
     interval: 30s
     ## Resources configuration for the JMX exporter container.
     ## See the `resources` documentation above for details.
-    resources:
-      limits:
-        cpu: 100m
-        memory: 192Mi
-      requests:
-        cpu: 100m
-        memory: 192Mi
+    resources: {}
+#      limits:
+#        cpu: 100m
+#        memory: 192Mi
+#      requests:
+#        cpu: 100m
+#        memory: 192Mi
 
 
   operator:
