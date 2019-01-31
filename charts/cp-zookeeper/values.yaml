@@ -21,7 +21,7 @@ imageTag: 5.0.1
 ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
 imagePullPolicy: IfNotPresent
 
-## Specify an array of imagePullSecrets. 
+## Specify an array of imagePullSecrets.
 ## Secrets must be manually created in the namespace.
 ## ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
 imagePullSecrets:
@@ -113,13 +113,13 @@ prometheus:
     imageTag: 6f82e2b0464f50da8104acd7363fb9b995001ddff77d248379f8788e78946143
     port: 5556
     interval: 30s
-    resources:
-      limits:
-        cpu: 100m
-        memory: 192Mi
-      requests:
-        cpu: 100m
-        memory: 192Mi
+    resources: {}
+#      limits:
+#        cpu: 100m
+#        memory: 192Mi
+#      requests:
+#        cpu: 100m
+#        memory: 192Mi
 
   operator:
     enabled: false

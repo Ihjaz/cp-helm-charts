@@ -114,13 +114,13 @@ prometheus:
     imageTag: 6f82e2b0464f50da8104acd7363fb9b995001ddff77d248379f8788e78946143
     port: 5556
     interval: 30s
-    resources:
-      limits:
-        cpu: 100m
-        memory: 192Mi
-      requests:
-        cpu: 100m
-        memory: 192Mi
+    resources: {}
+#      limits:
+#        cpu: 100m
+#        memory: 192Mi
+#      requests:
+#        cpu: 100m
+#        memory: 192Mi
 
 
   operator:
