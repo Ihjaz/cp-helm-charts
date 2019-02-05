@@ -1,0 +1,54 @@
+###############################################################################
+# Framework level information
+###############################################################################
+
+#------------------------------------------------------------------------------
+# Optional element. If specified, this selects the specified plugin
+# implementation from the common code base. If not provided, then the
+# plugin included in the product helm chart is used. If The product helm
+# chart does not provide a plugin, then the default plugin from the
+# common code base is used.
+#------------------------------------------------------------------------------
+plugin-selector : kafka
+
+#------------------------------------------------------------------------------
+# Docker image bindings
+#------------------------------------------------------------------------------
+
+image-bindings:
+
+  specific:
+
+    - chart: eventing-kafka
+      bindings:
+        - image-attr     : cp-zookeeper.image
+          image-tag-attr : cp-zookeeper.imageTag
+        - image-attr     : cp-kafka.image
+          image-tag-attr : cp-kafka.imageTag
+        - image-attr     : cp-zookeeper.prometheus.jmx.image
+          image-tag-attr : cp-zookeeper.prometheus.jmx.imageTag
+        - image-attr     : cp-kafka.prometheus.jmx.image
+          image-tag-attr : cp-kafka.prometheus.jmx.imageTag
+
+    - chart: eventing-kafka:topic-operator
+      bindings:
+        - image-attr     : image.repository
+          image-tag-attr : image.tag
+
+
+#------------------------------------------------------------------------------
+# Scaling spec
+#------------------------------------------------------------------------------
+scaling-spec:
+
+  - handle            : kafka
+    controller-type   : StatefulSet
+    controller-handle : kafka-broker
+
+
+# Other possibilities:
+#    type  : replicaset
+#    type  : deployment
+#    type  : replicationcontroller
+#    type  : statefulset
+
