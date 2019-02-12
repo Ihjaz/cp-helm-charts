@@ -127,36 +127,6 @@ cp-schema-registry:
   #   cpu: 100m
   #   memory: 128Mi
 
-## -----------------------------------------------------
-## VirtualService for Schema Registry
-## -----------------------------------------------------
-virtual-service:
-  enabled: false
-  apiVersion: networking.istio.io/v1alpha3
-  kind: VirtualService
-  metadata:
-  name: VS-eventing-kafka-schema-registry
-  spec:
-  gateways:
-  - default-gateway
-  hosts:
-  - '*'
-  http:
-  - match:
-    - uri:
-        prefix: /subjects/
-    - uri:
-        prefix: /schemas/
-    - uri:
-        prefix: /compatibility/
-    - uri:
-        prefix: /config/
-    route:
-    - destination:
-        host: eventing-kafka-schema-registry
-        port:
-          number: 8081
-
 ## ------------------------------------------------------
 ## REST Proxy
 ## ------------------------------------------------------

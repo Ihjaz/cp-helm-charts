@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+  name: cp-schema-registry-vs
+  spec:
+  gateways:
+  - default-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /subjects/
+    - uri:
+        prefix: /schemas/
+    - uri:
+        prefix: /compatibility/
+    - uri:
+        prefix: /config/    
+    route:
+    - destination:
+        host: 
+         {{ template "cp-schema-registry.fullname" . }}
+        port:
+          number: 8081
