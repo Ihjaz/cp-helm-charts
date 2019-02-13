@@ -10,13 +10,13 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /subjects/
+        prefix: /subjects
     - uri:
-        prefix: /schemas/
+        prefix: /schemas
     - uri:
-        prefix: /compatibility/
+        prefix: /compatibility
     - uri:
-        prefix: /config/
+        prefix: /config
     route:
     - destination:
         host:
