@@ -154,8 +154,8 @@ cp-kafka-rest:
 ## ------------------------------------------------------
 cp-kafka-connect:
   enabled: true
-  image: confluentinc/cp-kafka-connect
-  imageTag: 5.0.1
+  image: flex-docker.forge.avaya.com/kafka-connect
+  imageTag: 1.0.0
   ## Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace.
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
   imagePullSecrets:
