@@ -110,7 +110,7 @@ cp-kafka:
 cp-schema-registry:
   enabled: true
   ## This below image will be changed to the one Which will be of our own Avaya made
-  image: flex-docker.forge.avaya.com/cp-schema-registry
+  image: flex-docker.forge.avaya.com/schema-registry
   imageTag: 1.0.0
   ## Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace.
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
