@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kafka-connect-vs
+spec:
+  gateways:
+  - default-ingressgateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /connectors
+    route:
+    - destination:
+        host:
+         {{ template "cp-kafka-connect.fullname" . }}
+        port:
+          number: 8083
