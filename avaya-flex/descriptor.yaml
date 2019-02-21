@@ -29,6 +29,10 @@ image-bindings:
           image-tag-attr : cp-zookeeper.prometheus.jmx.imageTag
         - image-attr     : cp-kafka.prometheus.jmx.image
           image-tag-attr : cp-kafka.prometheus.jmx.imageTag
+        - image-attr     : cp-schema-registry.image
+          image-tag-attr : cp-schema-registry.imageTag
+        - image-attr     : cp-kafka-connect.image
+          image-tag-attr : cp-kafka-connect.imageTag
 
     - chart: eventing-kafka:topic-operator
       bindings:
