@@ -137,7 +137,7 @@ spec:
         - name: KAFKA_OPTS
           value: "-Djava.security.auth.login.config=/etc/kafka/kafka-server-jaas.conf"
         - name: AUTH_CLIENT_ID
-          value: {{ template "cp-kafka.fullname" . }}-auth-client
+          value: {{ template "cp-kafka.fullname" . }}
         - name: AUTH_CLIENT_SECRET
           valueFrom:
             secretKeyRef:

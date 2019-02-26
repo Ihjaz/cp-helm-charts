@@ -1,9 +1,0 @@
-{{- if .Values.saslEnabled }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "cp-kafka.fullname" . }}-auth-client
-  labels:
-    authClientID: {{ template "cp-kafka.fullname" . }}-auth-client
-    authClientSecretName: {{ template "cp-kafka.fullname" . }}-secret
-{{- end }}

@@ -7,6 +7,10 @@ metadata:
     chart: {{ template "cp-kafka.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if .Values.saslEnabled }}
+    authClientID: {{ template "cp-kafka.fullname" . }}
+    authClientSecretName: {{ template "cp-kafka.fullname" . }}-secret
+{{- end }}
 spec:
   ports:
     - port: 9092
