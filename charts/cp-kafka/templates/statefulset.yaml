@@ -125,8 +125,6 @@ spec:
         {{- end }}
         - name: ZOOKEEPER_SASL_ENABLED
           value: "FALSE"
-        - name: authServerIp
-          value: "dummy-auth-server"
         # This is required because the Downward API does not yet support identification of
         # pod numbering in statefulsets. Thus, we are required to specify a command which
         # allows us to extract the pod ID for usage as the Kafka Broker ID.
@@ -138,6 +136,13 @@ spec:
         {{- end }}
         - name: KAFKA_OPTS
           value: "-Djava.security.auth.login.config=/etc/kafka/kafka-server-jaas.conf"
+        - name: AUTH_CLIENT_ID
+          value: {{ template "cp-kafka.fullname" . }}
+        - name: AUTH_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cp-kafka.fullname" . }}-secret
+              key: client_secret
         {{- end }}
         {{- if .Values.sslEnabled }}
         {{- range $key, $value := .Values.sslConfigurationOverrides }}

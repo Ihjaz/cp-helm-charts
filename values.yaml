@@ -88,12 +88,12 @@ cp-kafka:
     "listener.security.protocol.map": |-
      SSL:SSL,SSL_EXTERNAL:SSL
   saslConfigurationOverrides:
-    "sasl.client.callback.handler.class": com.avaya.dinesh.test.flex.kafka.auth.TestClientCallBackHandler
+    "sasl.client.callback.handler.class": com.avaya.flex.eventing.kafka.auth.ClientAuthCallBackHandler
     "security.inter.broker.protocol": SASL_PLAINTEXT
     "sasl.mechanism.inter.broker.protocol": PLAIN
     "sasl.enabled.mechanisms": PLAIN
-    "listener.name.sasl..plaintext.plain.sasl.server.callback.handler.class": com.avaya.dinesh.test.flex.kafka.auth.TestServerCallBackHandler
-    "listener.name.sasl..external.plain.sasl.server.callback.handler.class": com.avaya.dinesh.test.flex.kafka.auth.TestServerCallBackHandler
+    "listener.name.sasl..plaintext.plain.sasl.server.callback.handler.class": com.avaya.flex.eventing.kafka.auth.ServerCallBackHandler
+    "listener.name.sasl..external.plain.sasl.server.callback.handler.class": com.avaya.flex.eventing.kafka.auth.ServerCallBackHandler
     "listener.security.protocol.map": |-
      SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_EXTERNAL:SASL_PLAINTEXT
   # "default.replication.factor": 3
