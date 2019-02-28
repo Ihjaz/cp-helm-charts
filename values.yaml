@@ -126,6 +126,10 @@ cp-schema-registry:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
+  prometheus:
+    jmx:
+      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
+      imageTag: 1.0.0
 
 ## ------------------------------------------------------
 ## REST Proxy
@@ -148,6 +152,10 @@ cp-kafka-rest:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
+  prometheus:
+    jmx:
+      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
+      imageTag: 1.0.0
 
 ## ------------------------------------------------------
 ## Kafka Connect
@@ -170,6 +178,10 @@ cp-kafka-connect:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
+  prometheus:
+    jmx:
+      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
+      imageTag: 1.0.0
 
 ## ------------------------------------------------------
 ## KSQL Server
@@ -185,3 +197,7 @@ cp-ksql-server:
   heapOptions: "-Xms512M -Xmx512M"
   ksql:
     headless: false
+  prometheus:
+    jmx:
+      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
+      imageTag: 1.0.0
