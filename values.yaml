@@ -116,6 +116,7 @@ cp-schema-registry:
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
   imagePullSecrets:
   #  - name: "regcred"
+  saslEnabled: false
   heapOptions: "-Xms512M -Xmx512M"
   resources: {}
   ## If you do want to specify resources, uncomment the following lines, adjust them as necessary,
@@ -126,6 +127,11 @@ cp-schema-registry:
   #  requests:
   #   cpu: 100m
   #   memory: 128Mi
+  saslConfigurationOverrides:
+    "kafkastore.security.protocol": SASL_PLAINTEXT
+    "kafkastore.sasl.mechanism": PLAIN
+    "kafkastore.sasl.client.callback.handler.class": com.avaya.flex.eventing.kafka.auth.ClientAuthCallBackHandler
+    "kafkastore.sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"schemaRegistry\" ;"
   virtualService:
     enabled: true
   prometheus:

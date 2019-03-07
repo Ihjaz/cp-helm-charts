@@ -7,6 +7,10 @@ metadata:
     chart: {{ template "cp-schema-registry.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if .Values.saslEnabled }}
+    authClientID: {{ template "cp-schema-registry.fullname" . }}
+    authClientSecretName: {{ template "cp-schema-registry.fullname" . }}-secret
+{{- end }}
 spec:
   ports:
     - name: schema-registry
