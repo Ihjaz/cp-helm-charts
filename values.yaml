@@ -213,3 +213,9 @@ cp-ksql-server:
     jmx:
       image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
       imageTag: 1.0.0
+
+## ------------------------------------------------------
+## Topic Operator
+## ------------------------------------------------------
+topic-operator:
+  saslEnabled: false

@@ -1,0 +1,21 @@
+{{- if .Values.saslEnabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "topic-operator.fullname" . }}
+  labels:
+    app: {{ include "topic-operator.name" . }}
+    chart: {{ include "topic-operator.chart" . }}
+    component: deployment
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    authClientID: {{ include "topic-operator.fullname" . }}
+    authClientSecretName: {{ include "topic-operator.fullname" . }}-secret
+spec:
+  ports:
+    - port: 9090
+      name: topic-operator
+  selector:
+    app: {{ include "topic-operator.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}
