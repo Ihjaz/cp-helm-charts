@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $1 == "listTopics" ]];then
+./listTopics.sh $2
+elif [[ $1 == "deleteTopics" ]];then
+./deleteTopics.sh $2
+elif [[ $1 == "listConsumers" ]];then
+./listConsumers.sh $2
+elif [[ $1 == "resetConsumers" ]];then
+./resetConsumers.sh $2
+else
+echo "Please enter Options"
+fi
