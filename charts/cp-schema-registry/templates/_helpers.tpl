@@ -47,7 +47,7 @@ else use user-provided URL
 {{- define "cp-schema-registry.kafka.bootstrapServers" -}}
 {{- if .Values.kafka.bootstrapServers -}}
 {{- .Values.kafka.bootstrapServers -}}
-{{- else if .Values.saslConfigurationOverrides -}}
+{{- else if .Values.saslEnabled -}}
 {{- printf "SASL_PLAINTEXT://%s:9092" (include "cp-kafka-rest.cp-kafka-headless.fullname" .) -}}
 {{- else -}}
 {{- printf "PLAINTEXT://%s:9092" (include "cp-kafka-rest.cp-kafka-headless.fullname" .) -}}
