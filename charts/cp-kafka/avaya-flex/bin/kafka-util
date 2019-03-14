@@ -1,13 +1,22 @@
 #!/bin/bash
 
-if [[ $1 == "listTopics" ]];then
-./listTopics.sh $2
-elif [[ $1 == "deleteTopics" ]];then
-./deleteTopics.sh $2
-elif [[ $1 == "listConsumers" ]];then
-./listConsumers.sh $2
-elif [[ $1 == "resetConsumers" ]];then
-./resetConsumers.sh $2
+if [[ $2 == "listTopics" ]];then
+./listTopics.sh $3
+elif [[ $2 == "deleteTopic" ]];then
+./deleteTopics.sh $3
+elif [[ $2 == "listConsumers" ]];then
+./listConsumers.sh $3
+elif [[ $2 == "resetConsumers" ]];then
+./resetConsumers.sh $3 $4 $5
 else
-echo "Please enter Options"
+echo "---------------------------------------------------------------------------------------------------------------------------------------------"
+echo "Please enter atleast one Option from the below"
+echo "---------------------------------------------------------------------------------------------------------------------------------------------"
+echo "1.List all the Topics use ccm kafka-util listTopics"
+echo "2.Describe all Topics use ccm kafka-util listTopics --describe"
+echo "3.To Delete a Topic use ccm kafka-util deleteTopic topic_name"
+echo "4.To List all the Consumers use ccm kafka-util listConsumers"
+echo "5.To Describe all the Consumers use ccm kafka-util listConsumers --describe"
+echo "6.To Check the current configuraiton of a topic in a consumer group use ccm kafka-util resetConsumers group_name topic_name"
+echo "7.To Reset the current configuration of a topic in a consumer group to default use ccm kafka-util resetConsumers group_name topic_name --execute"
 fi
