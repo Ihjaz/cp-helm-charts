@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ -z $2 ];then
+if [ -z $1 ];then
 echo "Error:- Topic name requied for deleting a Topic"
 
 else
-kubectl delete kafkatopic $2
+kubectl delete kafkatopic $1
 fi
 
