@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script needs to be updated to get kafka pod and bootstrap server names dynamically, instead of hardcoding the product name.
+
 if [ -z $1 ];then
 kubectl get kafkatopics
 else
