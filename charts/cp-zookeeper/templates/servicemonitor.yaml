@@ -3,10 +3,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "cp-zookeeper.fullname" . }}
+  namespace: default
   labels:
     app: {{ template "cp-zookeeper.name" . }}
     chart: {{ template "cp-zookeeper.chart" . }}
-    release: {{ .Release.Name }}
+    release: common-services
     heritage: {{ .Release.Service }}
     {{ toYaml .Values.prometheus.operator.serviceMonitor.selector }}
 spec:
@@ -14,6 +15,6 @@ spec:
     matchLabels:
       app: {{ template "cp-zookeeper.name" . }}
   endpoints:
-    - port: jmx-exporter 
-      interval: {{ .Values.prometheus.jmx.interval }} 
+    - port: jmx-exporter
+      interval: {{ .Values.prometheus.jmx.interval }}
 {{- end }}
