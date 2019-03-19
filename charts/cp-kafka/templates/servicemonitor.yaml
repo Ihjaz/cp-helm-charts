@@ -9,7 +9,6 @@ metadata:
     chart: {{ template "cp-kafka.chart" . }}
     release: common-services
     heritage: {{ .Release.Service }}
-    {{ toYaml .Values.prometheus.operator.serviceMonitor.selector }}
 spec:
   selector:
     matchLabels:

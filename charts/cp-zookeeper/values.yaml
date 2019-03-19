@@ -123,6 +123,3 @@ prometheus:
 
   operator:
     enabled: true
-    serviceMonitor:
-      selector:
-        prometheus: kube-prometheus
