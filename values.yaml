@@ -8,7 +8,7 @@ cp-zookeeper:
   enabled: true
   servers: 3
   image: flex-docker.forge.avaya.com/zookeeper
-  imageTag: 1.0.0
+  imageTag: 1.0.1
   heapOptions: "-Xms256M -Xmx256M -Xss256k"
   persistence:
     enabled: true
@@ -33,8 +33,8 @@ cp-zookeeper:
      memory: 512Mi
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## Kafka
@@ -43,7 +43,7 @@ cp-kafka:
   enabled: true
   brokers: 3
   image: flex-docker.forge.avaya.com/kafka
-  imageTag: 1.0.0
+  imageTag: 1.0.1
   sslEnabled: false
   saslEnabled: false
   heapOptions: "-Xms256M -Xmx256M -Xss256k"
@@ -101,8 +101,8 @@ cp-kafka:
   # "auto.create.topics.enable": false
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## Schema Registry
@@ -111,7 +111,7 @@ cp-schema-registry:
   enabled: true
   ## This below image will be changed to the one Which will be of our own Avaya made
   image: flex-docker.forge.avaya.com/schema-registry
-  imageTag: 1.0.0
+  imageTag: 1.0.1
   ## Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace.
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
   imagePullSecrets:
@@ -136,8 +136,8 @@ cp-schema-registry:
     enabled: true
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## REST Proxy
@@ -164,8 +164,8 @@ cp-kafka-rest:
     enabled: true
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## Kafka Connect
@@ -173,7 +173,7 @@ cp-kafka-rest:
 cp-kafka-connect:
   enabled: true
   image: flex-docker.forge.avaya.com/kafka-connect
-  imageTag: 1.0.0
+  imageTag: 1.0.1
   ## Optionally specify an array of imagePullSecrets. Secrets must be manually created in the namespace.
   ## https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
   imagePullSecrets:
@@ -192,8 +192,8 @@ cp-kafka-connect:
     enabled: true
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## KSQL Server
@@ -211,8 +211,8 @@ cp-ksql-server:
     headless: false
   prometheus:
     jmx:
-      image: flex-docker.forge.avaya.com/solsson-kafka-prometheus-jmx-exporter
-      imageTag: 1.0.0
+      image: flex-docker.forge.avaya.com/prometheus-jmx-exporter
+      imageTag: 1.0.1
 
 ## ------------------------------------------------------
 ## Topic Operator
