@@ -125,10 +125,7 @@ prometheus:
 
 
   operator:
-    enabled: false
-    serviceMonitor:
-       selector:
-         prometheus: kube-prometheus
+    enabled: true
 
 nodeport:
   enabled: false

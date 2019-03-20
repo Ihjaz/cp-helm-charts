@@ -122,7 +122,4 @@ prometheus:
 #        memory: 192Mi
 
   operator:
-    enabled: false
-    serviceMonitor:
-      selector:
-        prometheus: kube-prometheus
+    enabled: true

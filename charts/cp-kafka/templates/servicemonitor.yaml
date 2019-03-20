@@ -1,19 +1,19 @@
 {{- if and .Values.prometheus.jmx.enabled .Values.prometheus.operator.enabled }}
-apiVersion: monitoring.coreos.com/v1 
+apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "cp-kafka.fullname" . }}
+  namespace: default
   labels:
     app: {{ template "cp-kafka.name" . }}
     chart: {{ template "cp-kafka.chart" . }}
-    release: {{ .Release.Name }}
+    release: common-services
     heritage: {{ .Release.Service }}
-    {{ toYaml .Values.prometheus.operator.serviceMonitor.selector }}
 spec:
   selector:
     matchLabels:
       app: {{ template "cp-kafka.name" . }}
   endpoints:
-    - port: jmx-exporter 
-      interval: {{ .Values.prometheus.jmx.interval }} 
+    - port: jmx-exporter
+      interval: {{ .Values.prometheus.jmx.interval }}
 {{- end }}
