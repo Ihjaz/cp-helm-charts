@@ -111,6 +111,14 @@ spec:
         - name: KAFKA_LOG_DIRS
           value: {{ include "cp-kafka.log.dirs" . | quote }}
         {{- end }}
+        {{- if not (hasKey .Values.configurationOverrides "offsets.topic.replication.factor") }}
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: {{ include "cp-kafka.offsets.topic.replication.factor" . | int }}
+        {{- end }}
+        {{- if not (hasKey .Values.configurationOverrides "default.replication.factor") }}
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: {{ include "cp-kafka.default.replication.factor" . }}
+        {{- end }}
         {{- range $key, $value := .Values.configurationOverrides }}
         - name: {{ printf "KAFKA_%s" $key | replace "." "_" | upper | quote }}
           value: {{ $value | quote }}
