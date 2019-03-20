@@ -77,3 +77,25 @@ Create a variable containing all the datadirs created.
 {{- printf "/opt/kafka/data-%d/logs" $k -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create a variable for offsets.topic.replication.factor configuration.
+*/}}
+{{- define "cp-kafka.offsets.topic.replication.factor" }}
+{{- if lt (int (index .Values "brokers")) 3 -}}
+{{- index .Values "brokers" }}
+{{- else -}}
+{{- 3 }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a variable for default.replication.factor.
+*/}}
+{{- define "cp-kafka.default.replication.factor" -}}
+{{- if lt (int (index .Values "brokers")) 3 -}}
+{{- index .Values "brokers" }}
+{{- else -}}
+{{- 3 }}
+{{- end -}}
+{{- end -}}
