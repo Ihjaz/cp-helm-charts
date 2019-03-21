@@ -117,6 +117,7 @@ cp-schema-registry:
   #  - name: "regcred"
   saslEnabled: false
   heapOptions: "-Xms512M -Xmx512M"
+  schemaRegistryOpts: "-Djavax.net.ssl.keyStoreType=JKS -Djavax.net.ssl.trustStoreType=JKS"
   resources: {}
   ## If you do want to specify resources, uncomment the following lines, adjust them as necessary,
   ## and remove the curly braces after 'resources:'
