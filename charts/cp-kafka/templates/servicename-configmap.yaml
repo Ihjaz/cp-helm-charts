@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "cp-kafka.name" . }}-servicename-configmap
+  labels:
+    app: {{ template "cp-kafka.name" . }}
+    chart: {{ template "cp-kafka.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  broker-url: {{ template "cp-kafka.fullname" . }}-headless:9092
